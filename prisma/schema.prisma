@@ -70,7 +70,7 @@ model User {
 }
 
 enum Role {
-    ADMIN
+    OWNER
     MANAGER
     USER
 }
