@@ -28,7 +28,7 @@ export const env = createEnv({
     SMTP_USER: z.string(),
     SMTP_PASS: z.string(),
     PAYPAL_CLIENT_ID: z.string(),
-    PAYPAL_CLIENT_SECRET: z.string(),
+    PAYPAL_SECRET: z.string(),
   },
 
   /**
@@ -55,7 +55,7 @@ export const env = createEnv({
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
-    PAYPAL_CLIENT_SECRET: process.env.PAYPAL_CLIENT_SECRET,
+    PAYPAL_SECRET: process.env.PAYPAL_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
