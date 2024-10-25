@@ -6,11 +6,14 @@ import { loginSchema } from "~/lib/validation";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { useState } from "react";
 import Header from "~/components/ui/Header";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const handleSubmit = () => {
     console.log("Form submitted");
+    router.push("/dashboard");
   };
   const formik = useFormik({
     initialValues: {
@@ -114,6 +117,7 @@ const LoginPage = () => {
               </p>
             </div>
             <button
+              onClick={() => formik.handleSubmit()}
               type="submit"
               className={` ${formik.isValid && formik.values.email && formik.values.password ? "bg-[#142F9F]" : "bg-[#AEAEAF]"} text-white w-full self-center rounded-full px-4 py-3 font-semibold`}
             >

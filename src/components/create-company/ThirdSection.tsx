@@ -1,6 +1,6 @@
 "use client"
 
-const ThirdSection = () => {
+const ThirdSection =({ formik }: { formik: any }) => {
     return (
       <div>
         

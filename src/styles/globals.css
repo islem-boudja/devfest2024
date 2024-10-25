@@ -62,3 +62,27 @@
     @apply bg-background text-foreground;
   }
 }
+.input-style{
+  @apply border border-[#45597C] rounded-full px-4 py-3;
+}
+.label-style{
+  @apply font-medium text-main text-base;
+}
+@keyframes blurMovement {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1) translateY(10px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 0.6;
+  }
+}
+
+.animate-blur-ellipse {
+  animation: blurMovement 6s ease-in-out infinite;
+}

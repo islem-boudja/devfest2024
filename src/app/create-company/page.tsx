@@ -5,9 +5,61 @@ import FirstSection from "~/components/create-company/FirstSection";
 import SecondSection from "~/components/create-company/SecondSection";
 import ThirdSection from "~/components/create-company/ThirdSection";
 import FourthSection from "~/components/create-company/FourthSection";
+import { firstSectionSchema, secondSectionSchema } from "~/lib/validation";
 import Header from "~/components/ui/Header";
+import { useFormik } from "formik";
+
 const createCompanyPage = () => {
   const [currentSection, setCurrentSection] = useState(1);
+
+  const handleSectionValidation = () => {
+    switch (currentSection) {
+      case 1:
+        return firstSectionSchema;
+      case 2:
+        return secondSectionSchema;
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      companyName: "",
+      industry: "",
+      registrationNumber: "",
+      emailDomain: "",
+      companyType: "",
+      departments: ["Marketing", "Sales", "Finance", "Human Resources"],
+    },
+    validationSchema: handleSectionValidation(), // Dynamically set schema based on current section
+    validateOnChange: true,
+    onSubmit: (values) => {
+      console.log("Form submitted:", values);
+    },
+  });
+
+  const handleNextStep = () => {
+    formik.setTouched(
+      Object.keys(formik.values).reduce((acc, key) => {
+        acc[key] = true;
+        return acc;
+      }, {} as any) // Mark all fields as touched
+    );
+    formik.validateForm().then((errors) => {
+      console.log("errors", errors);
+      if (Object.keys(errors).length === 0) {
+        setCurrentSection(currentSection + 1);
+      }
+    });
+  };
+
+  const handlePreviousStep = () => {
+    setCurrentSection(currentSection - 1);
+  };
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -52,20 +104,20 @@ const createCompanyPage = () => {
           <div className="h-[2px] w-full rounded-lg bg-[#66666640]"></div>
           <div>
             {currentSection === 1 ? (
-              <FirstSection />
+              <FirstSection formik={formik} />
             ) : currentSection === 2 ? (
-              <SecondSection />
+              <SecondSection formik={formik} />
             ) : currentSection === 3 ? (
-              <ThirdSection />
+              <ThirdSection formik={formik} />
             ) : (
-              <FourthSection />
+              <FourthSection formik={formik} />
             )}
           </div>
           <div className="flex gap-x-2 self-end font-semibold text-base">
             {(currentSection === 2 || currentSection === 3) && (
               <div
                 className="bg-white cursor-pointer px-4 rounded-full border border-solid border-[#4A3AFF] p-2 text-center text-[#4A3AFF]"
-                onClick={() => setCurrentSection(currentSection - 1)}
+                onClick={() => handlePreviousStep()}
               >
                 Previous Step
               </div>
@@ -73,7 +125,7 @@ const createCompanyPage = () => {
             {currentSection < 4 && (
               <div
                 className="text-white cursor-pointer px-4 rounded-full bg-second p-2 text-center"
-                onClick={() => setCurrentSection(currentSection + 1)}
+                onClick={() => handleNextStep()}
               >
                 {currentSection < 3 ? "Next Step" : "Validate"}
               </div>
@@ -84,5 +136,4 @@ const createCompanyPage = () => {
     </div>
   );
 };
-
-export default createCompanyPage;
+export default createCompanyPage

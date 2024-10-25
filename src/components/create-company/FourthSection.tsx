@@ -1,4 +1,5 @@
-const FourthSection = () => {
+"use client"
+const FourthSection = ({formik}:{formik:any}) => {
     return (
       <div>
         
