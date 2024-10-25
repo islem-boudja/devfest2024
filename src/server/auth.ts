@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import {
   getServerSession,
@@ -23,12 +26,14 @@ declare module "next-auth" {
       id: string;
       // ...other properties
       role: UserRole;
+      organizationId: string;
     } & DefaultSession["user"];
   }
 
   interface User {
     id: string;
     role: UserRole;
+    organizationId: string;
   }
 }
 
@@ -45,6 +50,7 @@ export const authOptions: NextAuthOptions = {
         ...session.user,
         id: user.id,
         role: user.role,
+        organizationId: user.organizationId,
       },
     }),
   },
