@@ -63,6 +63,13 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    role          Role    @default(USER)
+}
+
+enum Role {
+    ADMIN
+    MANAGER
+    USER
 }
 
 model VerificationToken {
