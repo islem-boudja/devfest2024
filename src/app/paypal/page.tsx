@@ -17,7 +17,7 @@ const PaypalPage = async ({ searchParams }: Props) => {
         {
           method: "POST",
           headers: {
-            Authorization: `Basic ${Buffer.from(`${env.PAYPAL_CLIENT_ID}:${env.PAYPAL_CLIENT_SECRET}`).toString("base64")}`, // Proper Base64 encoding for server environment
+            Authorization: `Basic ${Buffer.from(`${env.PAYPAL_CLIENT_ID}:${env.PAYPAL_SECRET}`).toString("base64")}`, // Proper Base64 encoding for server environment
             "Content-Type": "application/x-www-form-urlencoded",
           },
           body: `grant_type=authorization_code&code=${authorizationCode}`,
