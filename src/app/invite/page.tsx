@@ -25,11 +25,7 @@ export default async function SignInPage({
   }
 
   const callbackUrl = `/invite?invite=${inviteToken}`;
-  //   if (inviteToken) {
-  //     callbackUrl = `/invite?invite=${inviteToken}`;
-  //   }
 
-  //   callbackUrl = "/dashboard";
   return (
     <div className="mx-auto max-w-md p-6">
       {inviteToken && session && (
