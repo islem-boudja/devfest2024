@@ -51,6 +51,7 @@ export const organizationRouter = createTRPCRouter({
           },
           data: {
             role: "MANAGER",
+            organizationId: invite.organizationId,
           },
         }),
       ]);
@@ -58,5 +59,30 @@ export const organizationRouter = createTRPCRouter({
       return {
         msg: "User added as manager",
       };
+    }),
+  createOrganization: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const organization = await ctx.db.organization.create({
+        data: {
+          name: input.name,
+          ownerId: ctx.session.user.id,
+        },
+      });
+
+      await ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          role: "OWNER",
+          organizationId: organization.id,
+        },
+      });
+      return organization;
     }),
 });
