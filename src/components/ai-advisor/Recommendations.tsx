@@ -30,6 +30,8 @@ const ExpensesPrediction = () => {
       image: "/exclam.svg",
     },
   ];
+  // const expenses = await api.expenses.getExpenses();
+  // console.log(expenses);
   return (
     <div className="flex flex-col gap-y-3 bg-white p-4 shadow-[0px_4px_14px_0px_#00000040]">
       <div className="flex flex-col gap-y-3 bg-[#EBEDF1] p-4">
@@ -38,7 +40,7 @@ const ExpensesPrediction = () => {
         </h1>
         <div className="flex items-center gap-x-3">
           {metrics.map((data) => (
-            <MetricCard 
+            <MetricCard
               key={data.title}
               title={data.title}
               count={data.count}
@@ -50,7 +52,7 @@ const ExpensesPrediction = () => {
           <h1 className="text-xl font-semibold text-main">Recommendations</h1>
         </div>
       </div>
-      <div className="flex cursor-pointer text-white px-4 items-center gap-x-2 self-end rounded-md bg-main p-2 text-lg">
+      <div className="flex cursor-pointer items-center gap-x-2 self-end rounded-md bg-main p-2 px-4 text-lg text-white">
         <FaFileExport size={20} />
         <p>Export</p>
       </div>

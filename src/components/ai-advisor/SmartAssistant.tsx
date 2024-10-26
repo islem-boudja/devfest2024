@@ -116,7 +116,7 @@ const SmartAssistant = () => {
           {messages.map((msg, index) => (
             <div key={index} className="mb-2">
               <div className="mb-1 text-right">
-                <span className="inline-block rounded-lg bg-blue-500 p-2 text-white">
+                <span className="inline-block rounded-lg bg-[#142F9F] p-2 text-white">
                   {msg.user}
                 </span>
               </div>
