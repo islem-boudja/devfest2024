@@ -94,7 +94,17 @@ model Organization {
     owner      User     @relation("OrganizationOwner", fields: [ownerId], references: [id])
     managers    User[]   @relation("OrganizationManager")
 
-    inviteLinks InviteLink[]
+    inviteLinks InviteLink[] 
+    cashFlows   CashFlow[]  // Relation to CashFlow
+    expenses    Expenses[]   // Relation to Expenses
+    revenue     Revenue[]    // Relation to Revenue
+    profit      Profit[]     // Relation to Profit
+    budget      Budget[]     // Relation to Budget
+    debt        Debt[]       // Relation to Debt
+    investments  Investments[] // Relation to Investments
+    funding     Funding[]     // Relation to Funding
+    reports     FinancialReports[] // Relation to FinancialReports
+    assetsLiabilities AssetsLiabilities[] // Relation to AssetsLiabilities
 }
 
 model InviteLink {
@@ -106,4 +116,126 @@ model InviteLink {
     expires       DateTime
 
     organization  Organization @relation(fields: [organizationId], references: [id])
+}
+
+
+model CashFlow {
+    id             Int      @id @default(autoincrement())
+    date           DateTime
+    cash_inflow    Float
+    cash_outflow   Float
+    net_cash_flow  Float
+    description    String?  @db.Text
+    category       String?  @db.VarChar(50)
+    organizationId String   // Relation to Organization
+    organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Expenses {
+    id                 Int      @id @default(autoincrement())
+    date               DateTime
+    amount             Float
+    expense_category    String?  @db.VarChar(50)
+    department         String?  @db.VarChar(50)
+    description        String?  @db.Text
+    organizationId     String   // Relation to Organization
+    organization       Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Revenue {
+    id                 Int      @id @default(autoincrement())
+    date               DateTime
+    amount             Float
+    product_line        String?  @db.VarChar(50)
+    customer_type       String?  @db.VarChar(50)
+    description        String?  @db.Text
+    organizationId     String   // Relation to Organization
+    organization       Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Profit {
+    id             Int      @id @default(autoincrement())
+    date           DateTime
+    revenue        Float
+    expenses       Float
+    net_profit     Float
+    profit_margin   Float?   
+    description    String?  @db.Text
+    organizationId String   // Relation to Organization
+    organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Budget {
+    id             Int      @id @default(autoincrement())
+    fiscal_year    String?  @db.VarChar(50)
+    department     String?  @db.VarChar(50)
+    allocated_budget Float
+    spent_budget    Float
+    remaining_budget Float
+    description    String?  @db.Text
+    organizationId String   // Relation to Organization
+    organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Debt {
+    id                  Int      @id @default(autoincrement())
+    debt_type          String?  @db.VarChar(50)
+    principal          Float
+    interest_rate      Float?  
+    maturity_date      DateTime? 
+    payment_due_date   DateTime? 
+    amount_paid        Float?   
+    outstanding_balance Float?   
+    description        String?  @db.Text
+    organizationId     String   // Relation to Organization
+    organization       Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Investments {
+    id               Int      @id @default(autoincrement())
+    investment_type   String?  @db.VarChar(50)
+    investment_amount Float
+    investment_date   DateTime 
+    returns          Float?   
+    risk_level       String?  @db.VarChar(50)
+    current_value    Float?   
+    description      String?  @db.Text
+    organizationId   String   // Relation to Organization
+    organization     Organization @relation(fields: [organizationId], references: [id])
+    date             DateTime
+}
+
+model Funding {
+    id            Int      @id @default(autoincrement())
+    funding_round  String?  @db.VarChar(50)
+    amount_raised  Float
+    date          DateTime
+    investor_name  String?  @db.VarChar(50)
+    valuation     Float?   
+    description   String?  @db.Text
+    organizationId String   // Relation to Organization
+    organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model FinancialReports {
+    id          Int      @id @default(autoincrement())
+    report_type String?  @db.VarChar(50)
+    start_date  DateTime 
+    end_date    DateTime 
+    content     String?  @db.Text
+    created_at  DateTime @default(now())
+    organizationId String   // Relation to Organization
+    organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model AssetsLiabilities {
+    id              Int      @id @default(autoincrement())
+    asset_name      String?  @db.VarChar(50)
+    asset_value     Float?   
+    liability_name  String?  @db.VarChar(50)
+    liability_value Float?   
+    date            DateTime 
+    description     String?  @db.Text
+    organizationId  String   // Relation to Organization
+    organization    Organization @relation(fields: [organizationId], references: [id])
 }
