@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { IoSend } from "react-icons/io5";
+import { ImAttachment } from "react-icons/im";
 
 const SmartAssistant = () => {
   const [filter, setFilter] = useState("User Guide");
@@ -110,8 +111,19 @@ const SmartAssistant = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
           placeholder="Type your question..."
-          className="flex-grow rounded-l-md border border-r-0 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-grow rounded-l-md border border-r-0 px-4 pl-10 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <div className="absolute left-4 top-4 text-main cursor-pointer">
+          <label htmlFor="fileupload">
+            <ImAttachment size={20} />
+          </label>
+          <input
+            id="fileupload"
+            type="file"
+            className="hidden"
+            accept=".pdf,.doc,.docx"
+          />
+        </div>
         <button
           onClick={handleSendMessage}
           disabled={isLoading}
