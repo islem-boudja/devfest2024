@@ -13,13 +13,13 @@ const OverviewCards = () => {
       percentage: "-12%",
     },
     {
-      title: "Total Delivered Services",
+      title: "Total Expenses",
       value: "1,569,230",
       image: "/services.svg",
       percentage: "+12%",
     },
     {
-      title: "Clients",
+      title: "Investments",
       value: "2350,745",
       image: "/clients.svg",
       percentage: "+12%",

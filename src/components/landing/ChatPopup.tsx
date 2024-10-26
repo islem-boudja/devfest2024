@@ -28,7 +28,7 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
     // console.log(env.AI_BASE_URL);
     try {
       const response = await fetch(
-        "https://a734-154-121-84-178.ngrok-free.app/chatbot/ask",
+        "https://2bc9-41-111-189-195.ngrok-free.app/chatbot/ask",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

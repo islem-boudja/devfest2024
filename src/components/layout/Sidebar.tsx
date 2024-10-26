@@ -8,6 +8,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { HiSparkles } from "react-icons/hi2";
 import { TbMoneybag } from "react-icons/tb";
 import { IoSettingsSharp } from "react-icons/io5";
+import { TbLogout2 } from "react-icons/tb";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -50,7 +51,7 @@ const Sidebar = () => {
             height={150}
           />
         </Link>
-        <div>
+        <div className="relative z-50">
           {sidebarItems.map((item) => (
             <Link href={item.href} key={item.href}>
               <div
@@ -67,7 +68,21 @@ const Sidebar = () => {
         <div className="animate-blur-ellipse fixed left-0 top-1/2 z-10">
           <Image src={"/blurellipse.png"} alt="blur" width={250} height={250} />
         </div>
-
+        <div className="animate-blur-ellipse fixed left-8 top-0 z-10 rotate-180">
+          <Image src={"/blurellipse.png"} alt="blur" width={250} height={250} />
+        </div>
+      </div>
+      <div className="relative z-50">
+        <Link href={"/"}>
+          <div
+            className={`z-20 flex items-center gap-x-4 rounded-md p-2 text-xl transition-all hover:translate-x-1 ${
+              pathname === "/" ? "text-second" : "text-[#D9D9D9]"
+            }`}
+          >
+            <TbLogout2 size={20} />
+            <span className="whitespace-nowrap">Sign out</span>
+          </div>
+        </Link>
       </div>
     </div>
   );

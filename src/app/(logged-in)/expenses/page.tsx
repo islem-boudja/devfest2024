@@ -113,12 +113,10 @@ const ExpensesPage = () => {
             </p>
           </div>
           <div className="border-l-slate-500 h-[55px] border-l-[1.5px] border-solid"></div>
-          <div>
-            <p className="text-xl font-semibold text-[#CD0606]">
-              Risks Detected
-            </p>
-            <p className="text-xl font-bold text-main">
-              Expecting a <span className="text-[#CD0606]">2,670,400</span> loss
+          <div className="text-base font-medium text-[#CD0606]">
+            <p>Risks Detected</p>
+            <p className="text-lg font-semibold text-main">
+              Expecting a <span className="text-[#CD0606]">2,670,400DA</span> loss
               within 18 days if we don’t change the expenses rate.
             </p>
           </div>
@@ -129,7 +127,7 @@ const ExpensesPage = () => {
             href="/ai-advisor"
             className="text-transparent inline-block bg-[linear-gradient(85.84deg,#071139_-6.26%,#142F9F_47.63%,#1FC274_96.28%)] bg-clip-text text-lg font-semibold underline"
           >
-            Ask AI for help
+            Ask AI for recommendations
           </Link>
         </div>
       </div>
