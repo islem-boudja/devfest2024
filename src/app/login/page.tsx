@@ -4,16 +4,18 @@ import { FcGoogle } from "react-icons/fc";
 import { useFormik } from "formik";
 import { loginSchema } from "~/lib/validation";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "~/components/ui/Header";
 import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
   const handleSubmit = () => {
     console.log("Form submitted");
-    router.push("/dashboard");
+    signIn("google", { callbackUrl: "/home" });
   };
   const formik = useFormik({
     initialValues: {
@@ -30,7 +32,10 @@ const LoginPage = () => {
         <div className="flex h-full w-1/2 flex-col items-center justify-center gap-y-8 py-6">
           <p className="text-3xl font-medium text-[#333333]">Log in</p>
           <div className="w-2/3 cursor-pointer rounded-full bg-[linear-gradient(90deg,#142F9F_0%,#1FC274_100%)] p-[2px]">
-            <div className="bg-white z-10 flex w-full items-center justify-center rounded-full px-8 py-3 text-[18px] font-semibold text-[#333333]">
+            <div
+              onClick={() => handleSubmit()}
+              className="z-10 flex w-full items-center justify-center rounded-full bg-white px-8 py-3 text-[18px] font-semibold text-[#333333]"
+            >
               <FcGoogle className="mr-2" size={24} />
               Continue with Google
             </div>
@@ -45,7 +50,7 @@ const LoginPage = () => {
             className="flex w-2/3 flex-col gap-y-4"
           >
             <div>
-              <label htmlFor="email" className="text-white text-sm font-medium">
+              <label htmlFor="email" className="text-sm font-medium text-white">
                 Email Address
               </label>
               <input
@@ -54,11 +59,11 @@ const LoginPage = () => {
                 type="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-                className="text-black bg-white mt-1 w-full rounded-md border border-solid border-[#66666659] p-2"
+                className="mt-1 w-full rounded-md border border-solid border-[#66666659] bg-white p-2 text-black"
                 placeholder="example@email.com"
               />
               {formik.touched.email && formik.errors.email ? (
-                <div className="text-red-500 text-sm">
+                <div className="text-sm text-red-500">
                   {formik.errors.email}
                 </div>
               ) : null}
@@ -68,7 +73,7 @@ const LoginPage = () => {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="text-white text-sm font-medium"
+                  className="text-sm font-medium text-white"
                 >
                   Password
                 </label>
@@ -97,12 +102,12 @@ const LoginPage = () => {
                   type={showPassword ? "text" : "password"}
                   onChange={formik.handleChange}
                   value={formik.values.password}
-                  className="text-black mt-1 w-full rounded-md border border-solid border-[#66666659] p-2"
+                  className="mt-1 w-full rounded-md border border-solid border-[#66666659] p-2 text-black"
                   placeholder="********"
                 />
               </div>
               {formik.touched.password && formik.errors.password ? (
-                <div className="text-red-500 text-sm">
+                <div className="text-sm text-red-500">
                   {formik.errors.password}
                 </div>
               ) : null}
@@ -110,16 +115,16 @@ const LoginPage = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input type="checkbox" />
-                <p className="text-black ml-2 text-sm">Remember me</p>
+                <p className="ml-2 text-sm text-black">Remember me</p>
               </div>
-              <p className="text-black cursor-pointer text-sm underline">
+              <p className="cursor-pointer text-sm text-black underline">
                 Forgot Password?
               </p>
             </div>
             <button
               onClick={() => formik.handleSubmit()}
               type="submit"
-              className={` ${formik.isValid && formik.values.email && formik.values.password ? "bg-[#142F9F]" : "bg-[#AEAEAF]"} text-white w-full self-center rounded-full px-4 py-3 font-semibold`}
+              className={` ${formik.isValid && formik.values.email && formik.values.password ? "bg-[#142F9F]" : "bg-[#AEAEAF]"} w-full self-center rounded-full px-4 py-3 font-semibold text-white`}
             >
               Sign In
             </button>
@@ -130,7 +135,7 @@ const LoginPage = () => {
             <button
               onClick={() => router.push("/create-company")}
               type="submit"
-              className={`bg-[#142F9F] text-white w-full self-center rounded-full px-4 py-3 font-semibold`}
+              className={`w-full self-center rounded-full bg-[#142F9F] px-4 py-3 font-semibold text-white`}
             >
               Create a company account
             </button>

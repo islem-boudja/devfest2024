@@ -3,23 +3,44 @@
 import { useState } from "react";
 import { IoSend } from "react-icons/io5";
 import { ImAttachment } from "react-icons/im";
+import Papa, { ParseResult } from "papaparse";
 
+interface DataRow {
+  [key: string]: string | number; // Adjust this based on the expected structure of your CSV
+}
 const SmartAssistant = () => {
   const [filter, setFilter] = useState("User Guide");
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ user: string; bot: string }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<DataRow[]>([]);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      Papa.parse<DataRow>(file, {
+        header: true, // Use first row as keys for data objects
+        skipEmptyLines: true, // Ignore empty lines
+        complete: (results: ParseResult<DataRow>) => {
+          setData(results.data); // Save parsed data to state
+        },
+        error: (error) => {
+          console.error("Error parsing CSV:", error);
+        },
+      });
+    }
+  };
 
   const handleSendMessage = async () => {
     if (input.trim() === "") return;
-
+    if (isLoading) return;
     setMessages([...messages, { user: input, bot: "..." }]);
     setIsLoading(true);
     setInput("");
 
     try {
       const response = await fetch(
-        "https://a734-154-121-84-178.ngrok-free.app/chatbot/ask",
+        "https://2bc9-41-111-189-195.ngrok-free.app/chat/assistant",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -28,6 +49,7 @@ const SmartAssistant = () => {
       );
 
       const data = await response.json();
+      console.log(data);
       const botResponse = data.answer || "Sorry, I couldn't understand that.";
 
       setMessages((prevMessages) => {
@@ -94,7 +116,7 @@ const SmartAssistant = () => {
           {messages.map((msg, index) => (
             <div key={index} className="mb-2">
               <div className="mb-1 text-right">
-                <span className="inline-block rounded-lg bg-blue-500 p-2 text-white">
+                <span className="inline-block rounded-lg bg-[#142F9F] p-2 text-white">
                   {msg.user}
                 </span>
               </div>
@@ -126,7 +148,8 @@ const SmartAssistant = () => {
             id="fileupload"
             type="file"
             className="hidden"
-            accept=".pdf,.doc,.docx"
+            accept=".csv"
+            onChange={handleFileUpload}
           />
         </div>
         <button

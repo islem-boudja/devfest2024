@@ -6,13 +6,13 @@ const MetricCard = ({
   image,
 }: {
   title: string;
-  count: number;
+  count: number | string;
   image: string;
 }) => {
   return (
     <div className="bg-white flex flex-col gap-y-2 rounded-lg p-3">
       <div className="flex gap-x-4 items-center">
-        <div>
+        <div className="">
             {title}
         </div>
         <div>
@@ -20,7 +20,7 @@ const MetricCard = ({
         </div>
       </div>
       <div>
-        <p className="text-2xl font-semibold">{count}</p>
+        <p className="text-xl font-medium">{count}</p>
       </div>
     </div>
   );
