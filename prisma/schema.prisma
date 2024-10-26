@@ -111,6 +111,7 @@ model InviteLink {
     id            String   @id @default(cuid())
     organizationId String
     email         String
+    role        Role
     token         String   @unique
     createdAt     DateTime @default(now())
     expires       DateTime
