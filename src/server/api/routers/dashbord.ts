@@ -61,29 +61,47 @@ export const dashboardRouter = createTRPCRouter({
       // Fetch current totals
       const currentRevenue = await ctx.db.revenue.aggregate({
         _sum: { amount: true },
-        where: { date: { gte: currentDateThreshold } },
+        where: {
+          date: { gte: currentDateThreshold },
+          organizationId: ctx.session.user.organizationId,
+        },
       });
       const currentExpense = await ctx.db.expenses.aggregate({
         _sum: { amount: true },
-        where: { date: { gte: currentDateThreshold } },
+        where: {
+          date: { gte: currentDateThreshold },
+          organizationId: ctx.session.user.organizationId,
+        },
       });
       const currentInvestment = await ctx.db.investments.aggregate({
         _sum: { investment_amount: true },
-        where: { date: { gte: currentDateThreshold } },
+        where: {
+          date: { gte: currentDateThreshold },
+          organizationId: ctx.session.user.organizationId,
+        },
       });
 
       // Fetch previous totals
       const previousRevenue = await ctx.db.revenue.aggregate({
         _sum: { amount: true },
-        where: { date: { gte: previousDateThreshold } },
+        where: {
+          date: { gte: previousDateThreshold },
+          organizationId: ctx.session.user.organizationId,
+        },
       });
       const previousExpense = await ctx.db.expenses.aggregate({
         _sum: { amount: true },
-        where: { date: { gte: previousDateThreshold } },
+        where: {
+          date: { gte: previousDateThreshold },
+          organizationId: ctx.session.user.organizationId,
+        },
       });
       const previousInvestment = await ctx.db.investments.aggregate({
         _sum: { investment_amount: true },
-        where: { date: { gte: previousDateThreshold } },
+        where: {
+          date: { gte: previousDateThreshold },
+          organizationId: ctx.session.user.organizationId,
+        },
       });
 
       // Calculate percentage changes
@@ -127,15 +145,24 @@ export const dashboardRouter = createTRPCRouter({
     );
     const investments = await ctx.db.investments.aggregate({
       _sum: { investment_amount: true },
-      where: { date: { gte: currentDateThreshold } },
+      where: {
+        date: { gte: currentDateThreshold },
+        organizationId: ctx.session.user.organizationId,
+      },
     });
     const asssets = await ctx.db.assetsLiabilities.aggregate({
       _sum: { asset_value: true },
-      where: { date: { gte: currentDateThreshold } },
+      where: {
+        date: { gte: currentDateThreshold },
+        organizationId: ctx.session.user.organizationId,
+      },
     });
     const currentExpense = await ctx.db.expenses.aggregate({
       _sum: { amount: true },
-      where: { date: { gte: currentDateThreshold } },
+      where: {
+        date: { gte: currentDateThreshold },
+        organizationId: ctx.session.user.organizationId,
+      },
     });
     const totalSpendings =
       (investments._sum.investment_amount || 0) +
@@ -148,6 +175,7 @@ export const dashboardRouter = createTRPCRouter({
       _sum: {
         amount: true,
       },
+      where: { organizationId: ctx.session.user.organizationId },
     });
     const totalExpenses = totalExpensesResult._sum.amount || 0;
     const departmentsExpenses = await ctx.db.expenses.groupBy({
@@ -159,11 +187,10 @@ export const dashboardRouter = createTRPCRouter({
         department: {
           not: null, // Exclude entries with null departments
         },
+        organizationId: ctx.session.user.organizationId,
       },
     });
-    const result = departmentsExpenses.filter(
-      (dept) => dept.department !== null,
-    );
+
     return departmentsExpenses.map((dept) => {
       const totalAmount = dept._sum.amount || 0;
       const percentage = totalExpenses
@@ -196,6 +223,7 @@ export const dashboardRouter = createTRPCRouter({
             gte: startDate,
             lte: endDate,
           },
+          organizationId: ctx.session.user.organizationId,
         },
       });
 
@@ -211,6 +239,7 @@ export const dashboardRouter = createTRPCRouter({
             gte: startDate,
             lte: endDate,
           },
+          organizationId: ctx.session.user.organizationId,
         },
       });
 
@@ -247,6 +276,7 @@ export const dashboardRouter = createTRPCRouter({
             gte: startDate,
             lte: endDate,
           },
+          organizationId: ctx.session.user.organizationId,
         },
       });
 
@@ -282,6 +312,7 @@ export const dashboardRouter = createTRPCRouter({
             gte: startDate,
             lte: endDate,
           },
+          organizationId: ctx.session.user.organizationId,
         },
       });
 
