@@ -42,18 +42,23 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
       const botResponse = data.answer || "Sorry, I couldn't understand that.";
 
       setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        updatedMessages[updatedMessages.length - 1].bot = botResponse;
+        // Replace the bot's response for the last message.
+        const updatedMessages = prevMessages.map((message, index) =>
+          index === prevMessages.length - 1
+            ? { ...message, bot: botResponse }
+            : message,
+        );
         return updatedMessages;
       });
     } catch (error) {
       console.error("Error fetching bot response:", error);
-      setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        updatedMessages[updatedMessages.length - 1].bot =
-          "There was an error. Please try again.";
-        return updatedMessages;
-      });
+      setMessages((prevMessages) =>
+        prevMessages.map((message, index) =>
+          index === prevMessages.length - 1
+            ? { ...message, bot: "There was an error. Please try again." }
+            : message,
+        ),
+      );
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +81,6 @@ const ChatPopup: React.FC<ChatPopupProps> = ({
               </div>
             </div>
           ))}
-
         </div>
         <div className="mt-2 flex items-center">
           <input

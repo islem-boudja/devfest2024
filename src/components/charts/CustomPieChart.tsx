@@ -19,6 +19,14 @@ const renderCustomizedLabel = ({
   outerRadius,
   percent,
   index,
+}: {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+  index: number;
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -47,53 +55,53 @@ const CustomPieChart = () => {
   };
 
   return (
-      <PieChart width={250} height={250}>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          paddingAngle={5}
-          label={renderCustomizedLabel}
-          outerRadius={80}
-          activeIndex={activeIndex}
-          activeShape={(props: any) => {
-            const {
-              cx,
-              cy,
-              innerRadius,
-              outerRadius,
-              startAngle,
-              endAngle,
-              fill,
-              payload,
-            } = props;
-            return (
-              <g>
-                <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-                  {payload.name}
-                </text>
-                <Sector
-                  cx={cx}
-                  cy={cy}
-                  innerRadius={innerRadius}
-                  outerRadius={outerRadius + 10} // Enlarge the hovered slice
-                  startAngle={startAngle}
-                  endAngle={endAngle}
-                  fill={fill}
-                />
-              </g>
-            );
-          }}
-          onMouseEnter={onPieEnter}
-          onMouseLeave={() => setActiveIndex(undefined)} 
-          dataKey="value"
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
+    <PieChart width={250} height={250}>
+      <Pie
+        data={data}
+        cx="50%"
+        cy="50%"
+        labelLine={false}
+        paddingAngle={5}
+        label={renderCustomizedLabel}
+        outerRadius={80}
+        activeIndex={activeIndex}
+        activeShape={(props: any) => {
+          const {
+            cx,
+            cy,
+            innerRadius,
+            outerRadius,
+            startAngle,
+            endAngle,
+            fill,
+            payload,
+          } = props;
+          return (
+            <g>
+              <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+                {payload.name}
+              </text>
+              <Sector
+                cx={cx}
+                cy={cy}
+                innerRadius={innerRadius}
+                outerRadius={outerRadius + 10} // Enlarge the hovered slice
+                startAngle={startAngle}
+                endAngle={endAngle}
+                fill={fill}
+              />
+            </g>
+          );
+        }}
+        onMouseEnter={onPieEnter}
+        onMouseLeave={() => setActiveIndex(undefined)}
+        dataKey="value"
+      >
+        {data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+    </PieChart>
   );
 };
 

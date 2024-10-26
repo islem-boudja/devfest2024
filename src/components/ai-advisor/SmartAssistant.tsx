@@ -31,18 +31,23 @@ const SmartAssistant = () => {
       const botResponse = data.answer || "Sorry, I couldn't understand that.";
 
       setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        updatedMessages[updatedMessages.length - 1].bot = botResponse;
+        // Replace the bot's response for the last message.
+        const updatedMessages = prevMessages.map((message, index) =>
+          index === prevMessages.length - 1
+            ? { ...message, bot: botResponse }
+            : message,
+        );
         return updatedMessages;
       });
     } catch (error) {
       console.error("Error fetching bot response:", error);
-      setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        updatedMessages[updatedMessages.length - 1].bot =
-          "There was an error. Please try again.";
-        return updatedMessages;
-      });
+      setMessages((prevMessages) =>
+        prevMessages.map((message, index) =>
+          index === prevMessages.length - 1
+            ? { ...message, bot: "There was an error. Please try again." }
+            : message,
+        ),
+      );
     } finally {
       setIsLoading(false);
     }
@@ -111,9 +116,9 @@ const SmartAssistant = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
           placeholder="Type your question..."
-          className="flex-grow rounded-l-md border border-r-0 px-4 pl-10 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-grow rounded-l-md border border-r-0 px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <div className="absolute left-4 top-4 text-main cursor-pointer">
+        <div className="absolute left-4 top-4 cursor-pointer text-main">
           <label htmlFor="fileupload">
             <ImAttachment size={20} />
           </label>
