@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { env } from "~/env";
 import { generateEmailHTML } from "~/utils/html-template";
+import crypto from "crypto"; // Import the crypto module
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -16,15 +17,18 @@ export const inviteRouter = createTRPCRouter({
   createInviteLink: protectedProcedure
     .input(
       z.object({
-        email: z.string().email(),
+        email: z.string().email(), 
+        role: z.enum(["USER", "MANAGER"]) // Replace with actual roles
       }),
     )
     .mutation(async ({ input, ctx }) => {
+      const token = crypto.randomBytes(32).toString("hex");
       try {
         const invite = await ctx.db.inviteLink.create({
           data: {
             email: input.email,
-            token: Math.random().toString(36).substring(7),
+            token,
+            role: input.role, 
             organizationId: ctx.session.user.organizationId,
             expires: new Date(
               Date.now() + 7 * 24 * 60 * 60 * 1000,
@@ -46,5 +50,20 @@ export const inviteRouter = createTRPCRouter({
           error: error instanceof Error ? error.message : "Unknown error",
         };
       }
-    }),
+    }), 
+    getInviteTokenRole : protectedProcedure.input(z.object({ 
+      token : z.string()
+    })).query(async ({ctx , input}) => {  
+      const invite = await ctx.db.inviteLink.findFirst({ 
+        where : {
+          token : input.token
+        }
+      }); 
+      if(!invite){
+        return { success : false, error : "Invalid token"}
+      }
+      return { success : true, data : invite.role}
+
+    })
 });
+
