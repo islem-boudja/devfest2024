@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { FaFileExport, FaUserCircle } from "react-icons/fa";
 import {

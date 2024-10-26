@@ -70,7 +70,7 @@ const createCompanyPage = () => {
         </div>
         <div className="max-w-[40%] self-center flex flex-col items-center gap-y-4 ">
           <div className="flex flex-col gap-y-2 text-center">
-            <h1 className="text-2xl font-bold text-main">
+            <h1 className="text-2xl font-bold text-main ">
               Create a company account
             </h1>
             <p className="text-wrap text-base font-normal text-[#6F6C90]">

@@ -125,6 +125,16 @@ const LoginPage = () => {
             </button>
             <div className="h-[2px] w-full rounded-lg bg-[#66666640]"></div>
           </form>
+          <div className="flex w-2/3 flex-col gap-y-3 text-center">
+            <p>Don’t have a company account?</p>
+            <button
+              onClick={() => router.push("/create-company")}
+              type="submit"
+              className={`bg-[#142F9F] text-white w-full self-center rounded-full px-4 py-3 font-semibold`}
+            >
+              Create a company account
+            </button>
+          </div>
         </div>
         <div className="flex h-full w-1/2 flex-col items-center justify-center bg-[#EBEDF1] pt-12 shadow-[-14px_4px_44px_0px_#00000033]">
           <div>

@@ -139,9 +139,9 @@ const SimpleAreaChart = ({ type }: { type: string }) => {
       <Area
         type="monotone"
         dataKey={type === "Expense" ? "expense" : "income"}
-        stroke="#142F9F" // Updated stroke color
+        stroke="#142F9F"
         strokeWidth={2}
-        fill="url(#colorExpense)" // Apply the custom gradient
+        fill="url(#colorExpense)"
         fillOpacity={1}
       />
     </AreaChart>

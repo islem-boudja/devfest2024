@@ -22,7 +22,7 @@ const homePage = () => {
             <p>Ask for a plan</p>
           </div>
         </Link>
-        {["Generate a report", "Check Feedbacks", "Track Expanses"].map(
+        {["Generate a report", "Track Expanses"].map(
           (item, index) => (
             <div
               key={index}

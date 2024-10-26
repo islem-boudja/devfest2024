@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 import { type Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { MyRuntimeProvider } from "./MyRuntimeProvider";
 import { TRPCReactProvider } from "~/trpc/react";
 const poppins = Poppins({
   subsets: ["latin"],
@@ -17,10 +18,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${poppins.className}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-      </body>
-    </html>
+    <MyRuntimeProvider>
+      <html lang="en" className={`${poppins.className}`}>
+        <body className="antialiased overflow-x-hidden">
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+        </body>
+      </html>
+    </MyRuntimeProvider>
   );
 }

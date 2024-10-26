@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import ReportGeneraation from "./ReportGeneration";
-import ExpensesPrediction from "./ExpensesPrediction";
+import ReportGeneraation from "./SmartAssistant";
+import ExpensesPrediction from "./Recommendations";
 import SmartPlan from "./SmartPlan";
 const AdvisorSection = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex gap-x-2 font-semibold text-md ">
-        {["Generate a report", "Predict expenses", "Make a smart plan"].map(
+        {["Smart Assistant", "Recommendations", "Make a Goal-based Plan"].map(
           (item, index) => (
             <div
               onClick={() => setActiveIndex(index)}

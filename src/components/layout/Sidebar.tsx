@@ -40,11 +40,11 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="relative flex h-[100vh] flex-col justify-between bg-main p-6 px-10">
+    <div className="flex h-[100vh] flex-col justify-between bg-main p-6 px-10">
       <div className="flex flex-col gap-y-8">
         <Link href={"/home"}>
           <Image
-            src="/fiscaiwhitelogo.svg"
+            src="/fiscaiwhitelogo.png"
             alt="Logo"
             width={150}
             height={150}
@@ -64,9 +64,10 @@ const Sidebar = () => {
             </Link>
           ))}
         </div>
-        <div className="animate-blur-ellipse absolute left-0 top-1/2 z-10">
+        <div className="animate-blur-ellipse fixed left-0 top-1/2 z-10">
           <Image src={"/blurellipse.png"} alt="blur" width={250} height={250} />
         </div>
+
       </div>
     </div>
   );
