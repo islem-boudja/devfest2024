@@ -3,6 +3,7 @@ import { organizationRouter } from "./routers/organization";
 import { inviteRouter } from "./routers/invite";
 import { settingsRouter } from "./routers/settings";
 import { dashboardRouter } from "./routers/dashbord";
+import { expensesRouter } from "./routers/expenses";
 /**
  * This is the primary router for your server.
  *
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
   invite: inviteRouter,
   settings: settingsRouter,
   dashboard: dashboardRouter,
+  expenses: expensesRouter,
 });
 
 // export type definition of API
