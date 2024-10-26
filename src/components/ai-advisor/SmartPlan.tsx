@@ -33,18 +33,26 @@ export default function SmartPlan() {
         "I'm sorry, I couldn't process that goal. Could you please rephrase or provide more details?";
 
       setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        updatedMessages[updatedMessages.length - 1].bot = botResponse;
+        // Replace the bot's response for the last message.
+        const updatedMessages = prevMessages.map((message, index) =>
+          index === prevMessages.length - 1
+            ? { ...message, bot: botResponse }
+            : message,
+        );
         return updatedMessages;
       });
     } catch (error) {
       console.error("Error fetching bot response:", error);
-      setMessages((prevMessages) => {
-        const updatedMessages = [...prevMessages];
-        updatedMessages[updatedMessages.length - 1].bot =
-          "There was an error processing your goal. Please try again.";
-        return updatedMessages;
-      });
+      setMessages((prevMessages) =>
+        prevMessages.map((message, index) =>
+          index === prevMessages.length - 1
+            ? {
+                ...message,
+                bot: "There was an error processing your goal. Please try again.",
+              }
+            : message,
+        ),
+      );
     } finally {
       setIsLoading(false);
     }
