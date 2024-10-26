@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import { MyRuntimeProvider } from "./MyRuntimeProvider";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Toaster } from "react-hot-toast";
+import { SessionProvider } from "next-auth/react";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -21,9 +22,9 @@ export default function RootLayout({
   return (
     <MyRuntimeProvider>
       <html lang="en" className={`${poppins.className}`}>
-        <body className="antialiased overflow-x-hidden">
-          <Toaster/>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+        <body className="overflow-x-hidden antialiased">
+            <Toaster />
+            <TRPCReactProvider>{children}</TRPCReactProvider>
         </body>
       </html>
     </MyRuntimeProvider>
