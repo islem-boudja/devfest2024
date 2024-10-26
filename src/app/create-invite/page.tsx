@@ -17,6 +17,7 @@ const SendEmailPage = () => {
     try {
       const response = await sendEmailMutation.mutateAsync({
         email,
+        role: "MANAGER",
       });
 
       if (response.success) {
