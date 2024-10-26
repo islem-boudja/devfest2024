@@ -202,6 +202,7 @@ model Investments {
     description      String?  @db.Text
     organizationId   String   // Relation to Organization
     organization     Organization @relation(fields: [organizationId], references: [id])
+    date             DateTime
 }
 
 model Funding {
