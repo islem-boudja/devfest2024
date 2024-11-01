@@ -2,10 +2,14 @@ import { PrismaClient } from "@prisma/client";
 import { createClient } from "redis";
 
 import { env } from "~/env";
+
 const redis = createClient({
-  url: env.REDIS_URL,
+  password: env.REDIS_PASSWORD,
+  socket: {
+    host: env.REDIS_URL,
+    port: parseInt(env.REDIS_PORT, 10),
+  },
 });
-await redis.connect();
 
 const createPrismaClient = () =>
   new PrismaClient({
