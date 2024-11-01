@@ -4,7 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { env } from "~/env";
 import { generateEmailHTML } from "~/utils/html-template";
 import crypto from "crypto"; // Import the crypto module
-
+import { redis } from "~/server/db"; // Import the Redis client
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -17,8 +17,8 @@ export const inviteRouter = createTRPCRouter({
   createInviteLink: protectedProcedure
     .input(
       z.object({
-        email: z.string().email(), 
-        role: z.enum(["USER", "MANAGER"]) // Replace with actual roles
+        email: z.string().email(),
+        role: z.enum(["USER", "MANAGER"]), // Replace with actual roles
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -28,13 +28,17 @@ export const inviteRouter = createTRPCRouter({
           data: {
             email: input.email,
             token,
-            role: input.role, 
+            role: input.role,
             organizationId: ctx.session.user.organizationId,
             expires: new Date(
               Date.now() + 7 * 24 * 60 * 60 * 1000,
             ).toISOString(), // Set expiration date to 7 days from now
           },
         });
+        await redis.set(`invite:${token}`, JSON.stringify(invite), {
+          EX: 7 * 24 * 60 * 60, // Set expiration to 7 days
+        });
+
         const mailOptions = {
           from: `devfest <${env.SMTP_USER}>`, // Sender address
           to: input.email, // List of receivers (comma-separated if multiple)
@@ -50,20 +54,27 @@ export const inviteRouter = createTRPCRouter({
           error: error instanceof Error ? error.message : "Unknown error",
         };
       }
-    }), 
-    getInviteTokenRole : protectedProcedure.input(z.object({ 
-      token : z.string()
-    })).query(async ({ctx , input}) => {  
-      const invite = await ctx.db.inviteLink.findFirst({ 
-        where : {
-          token : input.token
-        }
-      }); 
-      if(!invite){
-        return { success : false, error : "Invalid token"}
+    }),
+  getInviteTokenRole: protectedProcedure
+    .input(
+      z.object({
+        token: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const cachedInvite = await redis.get(`invite:${input.token}`);
+      if (cachedInvite) {
+        return JSON.parse(cachedInvite);
       }
-      return { success : true, data : invite.role}
 
-    })
+      const invite = await ctx.db.inviteLink.findFirst({
+        where: {
+          token: input.token,
+        },
+      });
+      if (!invite) {
+        return { success: false, error: "Invalid token" };
+      }
+      return { success: true, data: invite.role };
+    }),
 });
-

@@ -1,6 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+import { createClient } from "redis";
 
 import { env } from "~/env";
+const redis = createClient({
+  url: env.REDIS_URL,
+});
+await redis.connect();
 
 const createPrismaClient = () =>
   new PrismaClient({
@@ -14,4 +19,5 @@ const globalForPrisma = globalThis as unknown as {
 
 export const db = globalForPrisma.prisma ?? createPrismaClient();
 
+export { redis };
 if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
