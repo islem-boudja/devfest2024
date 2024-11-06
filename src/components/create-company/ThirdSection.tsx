@@ -3,7 +3,7 @@ import Link from "next/link";
 import { env } from "~/env";
 
 const ThirdSection = ({ formik }: { formik: any }) => {
-  const PAYPAL_URL = `https://www.sandbox.paypal.com/signin/authorize?flowEntry=static&client_id=${env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&scope=openid&redirect_uri=https://devfest2024-pearl.vercel.app/paypal`;
+  const PAYPAL_URL = `https://www.sandbox.paypal.com/signin/authorize?flowEntry=static&client_id=${env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&scope=openid&redirect_uri=https://ficsai.vercel.app/paypal`;
   return (
     <div className="flex flex-col gap-y-4">
       <div>
