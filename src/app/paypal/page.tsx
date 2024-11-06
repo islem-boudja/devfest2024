@@ -29,6 +29,16 @@ const PaypalPage = async ({ searchParams }: Props) => {
       }
 
       const data = await response.json();
+      const transactions = await fetch(
+        "https://api-m.sandbox.paypal.com/v1/reporting/transactions?start_date=2014-07-12T00:00:00-0700&end_date=2014-07-12T23:59:59-0700&transaction_id=9GS80322P28628837&fields=all",
+        {
+          headers: {
+            Authorization: `Bearer  ${data.access_token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      console.log(transactions);
       return `Success! Access token received: ${data.access_token}`;
     } catch (error) {
       return `Error:`;
