@@ -30,6 +30,9 @@ export const env = createEnv({
     PAYPAL_CLIENT_ID: z.string(),
     PAYPAL_SECRET: z.string(),
     AI_BASE_URL: z.string(),
+    REDIS_URL: z.string(),
+    REDIS_PASSWORD: z.string(),
+    REDIS_PORT: z.string(),
   },
 
   /**
@@ -59,6 +62,9 @@ export const env = createEnv({
     PAYPAL_SECRET: process.env.PAYPAL_SECRET,
     AI_BASE_URL: process.env.AI_BASE_URL,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
+    REDIS_URL: process.env.REDIS_URL,
+    REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+    REDIS_PORT: process.env.REDIS_PORT,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
